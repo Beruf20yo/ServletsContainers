@@ -6,6 +6,7 @@ public class Post {
     private String content;
 
     public Post() {
+        this.id = serialId++;
     }
 
     public Post(long id, String content) {
@@ -21,12 +22,20 @@ public class Post {
         this.content = content;
     }
 
+    public static long getSerialId() {
+        return serialId;
+    }
+
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public static void minusSerialId() {
+        Post.serialId--;
+    }
+
+    public void setId() {
+        this.id = serialId++;
     }
 
     public String getContent() {

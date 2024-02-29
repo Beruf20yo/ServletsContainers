@@ -19,9 +19,16 @@ public class PostRepository {
     }
 
     public Post save(Post post) {
+        if(post.getId() == 0) {
+            post.setId();
+        }        if(post.getId() >= Post.getSerialId()){
+            Post.minusSerialId();
+            throw new RuntimeException("Невозможно создать id самостоятельно");
+        }
         Iterator<Post> iterator = posts.iterator();
         while (iterator.hasNext()) {
             Post elem = iterator.next();
+
             if (elem.getId() == post.getId()) {
                 posts.remove(elem);
             }
