@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class MainServlet extends HttpServlet {
     private PostController controller;
-
+    private static final String POSTS_URL = "/api/posts";
+    private static final String POSTS_URL_ID = "/api/posts/\\d+";
     @Override
     public void init() {
         final var repository = new PostRepository();
@@ -26,12 +27,12 @@ public class MainServlet extends HttpServlet {
             final var path = req.getRequestURI();
             final var method = req.getMethod();
             // primitive routing
-            String POSTS_URL = "/api/posts";
+
             if (method.equals("GET") && path.equals(POSTS_URL)) {
                 controller.all(resp);
                 return;
             }
-            if (method.equals("GET") && path.matches(POSTS_URL + "/\\d+")) {
+            if (method.equals("GET") && path.matches(POSTS_URL_ID)) {
                 // easy way
                 var id = parseId(path);
                 controller.getById(id, resp);
@@ -41,7 +42,7 @@ public class MainServlet extends HttpServlet {
                 controller.save(req.getReader(), resp);
                 return;
             }
-            if (method.equals("DELETE") && path.matches(POSTS_URL + "/\\d+")) {
+            if (method.equals("DELETE") && path.matches(POSTS_URL_ID)) {
                 // easy way
                 var id = parseId(path);
                 controller.removeById(id, resp);
