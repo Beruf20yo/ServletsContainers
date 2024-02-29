@@ -1,6 +1,7 @@
 package org.example.model;
 
 public class Post {
+    private static long serialId = 1;
     private long id;
     private String content;
 
@@ -8,7 +9,15 @@ public class Post {
     }
 
     public Post(long id, String content) {
-        this.id = id;
+        if (id == 0) {
+            this.id = serialId++;
+        }
+        if (id < serialId) {
+            this.id = id;
+        }
+        if (id >= serialId) {
+            throw new RuntimeException("Невозможно создать id самостоятельно");
+        }
         this.content = content;
     }
 
